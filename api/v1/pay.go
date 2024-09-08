@@ -1,19 +1,20 @@
 package v1
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"mall/service"
-	util2 "mall/utils"
+	util "github.com/xilepeng/gin-mall/pkg/utils"
+	"github.com/xilepeng/gin-mall/service"
 )
 
 func OrderPay(c *gin.Context) {
 	orderPay := service.OrderPay{}
-	claim, _ := util2.ParseToken(c.GetHeader("Authorization"))
+	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&orderPay); err == nil {
-		res := orderPay.PayDown(c.Request.Context(), claim.ID)
-		c.JSON(200, res)
+		res := orderPay.OrderPay(c.Request.Context(), claim.ID)
+		c.JSON(http.StatusOK, res)
 	} else {
-		util2.LogrusObj.Infoln(err)
-		c.JSON(400, err)
+		c.JSON(http.StatusBadRequest, err)
 	}
 }

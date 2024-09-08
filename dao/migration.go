@@ -2,15 +2,17 @@ package dao
 
 import (
 	"fmt"
-	"mall/model"
 	"os"
+
+	"github.com/xilepeng/gin-mall/model"
 )
 
-// Migration 执行数据迁移
-func Migration() {
+// 执行数据迁移
+func migration() {
 	//自动迁移模式
 	err := _db.Set("gorm:table_options", "charset=utf8mb4").
-		AutoMigrate(&model.User{},
+		AutoMigrate(
+			&model.User{},
 			&model.Product{},
 			&model.Carousel{},
 			&model.Category{},

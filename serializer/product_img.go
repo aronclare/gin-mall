@@ -1,23 +1,27 @@
 package serializer
 
-import "mall/model"
+import (
+	"github.com/xilepeng/gin-mall/conf"
+	"github.com/xilepeng/gin-mall/model"
+)
 
 type ProductImg struct {
-	ProductID uint   `json:"product_id" form:"product_id"`
-	ImgPath   string `json:"img_path" form:"img_path"`
+	ProductId uint   `json:"product_id"`
+	ImgPath   string `json:"img_path"`
 }
 
 func BuildProductImg(item *model.ProductImg) ProductImg {
 	return ProductImg{
-		ProductID: item.ProductID,
-		ImgPath:   item.ImgPath,
+		ProductId: item.ProductId,
+		ImgPath:   conf.Host + conf.HttpPort + conf.ProductPath + item.ImgPath,
 	}
 }
 
-func BuildProductImgs(items []*model.ProductImg) (productImgs []ProductImg) {
+func BuildProductImgs(items []*model.ProductImg) (productImg []ProductImg) {
 	for _, item := range items {
 		product := BuildProductImg(item)
-		productImgs = append(productImgs, product)
+		productImg = append(productImg, product)
+
 	}
-	return productImgs
+	return
 }

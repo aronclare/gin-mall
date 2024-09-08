@@ -1,0 +1,2 @@
+old version  v1.0
+配置好数据库直接在根目录执行go run main.go 启动项目

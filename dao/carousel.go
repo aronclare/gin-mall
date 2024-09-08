@@ -2,8 +2,9 @@ package dao
 
 import (
 	"context"
+
+	"github.com/xilepeng/gin-mall/model"
 	"gorm.io/gorm"
-	"mall/model"
 )
 
 type CarouselDao struct {
@@ -14,11 +15,17 @@ func NewCarouselDao(ctx context.Context) *CarouselDao {
 	return &CarouselDao{NewDBClient(ctx)}
 }
 
-func NewNewCarouselDao(db *gorm.DB) *CarouselDao {
+func NewCarouselDaoByDB(db *gorm.DB) *CarouselDao {
 	return &CarouselDao{db}
 }
 
-func (dao *CarouselDao) ListAddress() (carousels []*model.Carousel, err error) {
-	err = dao.DB.Model(&model.Carousel{}).Find(&carousels).Error
+// GetUserById 根据 id 获取 user
+func (dao *CarouselDao) ListCarousel() (carousel []model.Carousel, err error) { // nitice 拼写错误
+	err = dao.DB.Model(&model.Carousel{}).Find(&carousel).Error
 	return
+}
+
+// CreateCarousel 创建Carousel
+func (dao *CarouselDao) CreateCarousel(carousel *model.Carousel) error {
+	return dao.DB.Model(&model.Carousel{}).Create(&carousel).Error
 }

@@ -2,8 +2,9 @@ package dao
 
 import (
 	"context"
+
+	"github.com/xilepeng/gin-mall/model"
 	"gorm.io/gorm"
-	"mall/model"
 )
 
 type CategoryDao struct {
@@ -18,8 +19,7 @@ func NewCategoryDaoByDB(db *gorm.DB) *CategoryDao {
 	return &CategoryDao{db}
 }
 
-// ListCategory 分类列表
-func (dao *CategoryDao) ListCategory() (category []*model.Category, err error) {
+func (dao *CategoryDao) ListCategory() (category []model.Category, err error) {
 	err = dao.DB.Model(&model.Category{}).Find(&category).Error
 	return
 }

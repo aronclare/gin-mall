@@ -1,54 +1,61 @@
 package v1
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"mall/service"
-	util2 "mall/utils"
+	util "github.com/xilepeng/gin-mall/pkg/utils"
+	"github.com/xilepeng/gin-mall/service"
 )
 
+// CreateOrder 新建收藏
 func CreateOrder(c *gin.Context) {
+	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	createOrderService := service.OrderService{}
-	claim, _ := util2.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&createOrderService); err == nil {
 		res := createOrderService.Create(c.Request.Context(), claim.ID)
-		c.JSON(200, res)
+		c.JSON(http.StatusOK, res)
 	} else {
-		c.JSON(400, err)
-		util2.LogrusObj.Infoln(err)
+		c.JSON(http.StatusBadRequest, ErrorResponse(err))
+		util.LogrusObj.Infoln(err)
 	}
 }
 
-func ListOrders(c *gin.Context) {
-	listOrdersService := service.OrderService{}
-	claim, _ := util2.ParseToken(c.GetHeader("Authorization"))
-	if err := c.ShouldBind(&listOrdersService); err == nil {
-		res := listOrdersService.List(c.Request.Context(), claim.ID)
-		c.JSON(200, res)
-	} else {
-		c.JSON(400, err)
-		util2.LogrusObj.Infoln(err)
-	}
-}
-
-// 订单详情
-func ShowOrder(c *gin.Context) {
-	showOrderService := service.OrderService{}
-	if err := c.ShouldBind(&showOrderService); err == nil {
-		res := showOrderService.Show(c.Request.Context(), c.Param("id"))
-		c.JSON(200, res)
-	} else {
-		c.JSON(400, err)
-		util2.LogrusObj.Infoln(err)
-	}
-}
-
+// DeleteOrder 删除收藏夹
 func DeleteOrder(c *gin.Context) {
 	deleteOrderService := service.OrderService{}
+	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if err := c.ShouldBind(&deleteOrderService); err == nil {
-		res := deleteOrderService.Delete(c.Request.Context(), c.Param("id"))
-		c.JSON(200, res)
+		res := deleteOrderService.Delete(c.Request.Context(), claim.ID, c.Param("id"))
+		c.JSON(http.StatusOK, res)
 	} else {
-		c.JSON(400, err)
-		util2.LogrusObj.Infoln(err)
+		c.JSON(http.StatusBadRequest, ErrorResponse(err))
+		util.LogrusObj.Infoln(err)
+	}
+}
+
+// ShowOrder 新建收藏
+func ShowOrder(c *gin.Context) {
+	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
+	showOrdersService := service.OrderService{}
+	if err := c.ShouldBind(&showOrdersService); err == nil {
+		res := showOrdersService.Show(c.Request.Context(), claim.ID, c.Param("id"))
+		c.JSON(http.StatusOK, res)
+	} else {
+		c.JSON(http.StatusBadRequest, ErrorResponse(err))
+		util.LogrusObj.Infoln(err)
+	}
+}
+
+// ListOrder 获取商品展示信息
+func ListOrder(c *gin.Context) {
+	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
+	listOrderService := service.OrderService{}
+	if err := c.ShouldBind(&listOrderService); err == nil {
+		res := listOrderService.List(c.Request.Context(), claim.ID)
+		c.JSON(http.StatusOK, res)
+	} else {
+		c.JSON(http.StatusBadRequest, ErrorResponse(err))
+		util.LogrusObj.Infoln(err)
 	}
 }

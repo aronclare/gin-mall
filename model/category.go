@@ -1,8 +1,10 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
+// 商品的分类
 type Category struct {
 	gorm.Model
-	CategoryName string
+
+	CategoryName string // 分类名
 }

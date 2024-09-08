@@ -1,18 +1,18 @@
 package v1
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"mall/service"
-	"mall/utils"
+	"github.com/xilepeng/gin-mall/service"
 )
 
-func ListCarousels(c *gin.Context) {
-	listCarouselsService := service.ListCarouselsService{}
-	if err := c.ShouldBind(&listCarouselsService); err == nil {
-		res := listCarouselsService.List()
-		c.JSON(200, res)
+func ListCarousel(c *gin.Context) {
+	var listCarousel service.CarouselService
+	if err := c.ShouldBind(&listCarousel); err == nil {
+		res := listCarousel.List(c.Request.Context())
+		c.JSON(http.StatusOK, res)
 	} else {
-		c.JSON(400, err)
-		util.LogrusObj.Infoln(err)
+		c.JSON(http.StatusBadRequest, err)
 	}
 }

@@ -1,25 +1,25 @@
 package serializer
 
-import "mall/model"
+import "github.com/xilepeng/gin-mall/model"
 
 type Category struct {
-	ID           uint   `json:"id"`
+	Id           uint   `json:"id"`
 	CategoryName string `json:"category_name"`
 	CreateAt     int64  `json:"create_at"`
 }
 
 func BuildCategory(item *model.Category) Category {
 	return Category{
-		ID:           item.ID,
+		Id:           item.ID,
 		CategoryName: item.CategoryName,
 		CreateAt:     item.CreatedAt.Unix(),
 	}
 }
 
-func BuildCategories(items []*model.Category) (categories []Category) {
+func BuildCategorys(items []model.Category) (categorys []Category) {
 	for _, item := range items {
-		category := BuildCategory(item)
-		categories = append(categories, category)
+		category := BuildCategory(&item)
+		categorys = append(categorys, category)
 	}
-	return categories
+	return categorys
 }

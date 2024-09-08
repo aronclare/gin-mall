@@ -2,22 +2,23 @@ package service
 
 import (
 	"context"
-	logging "github.com/sirupsen/logrus"
-	"mall/dao"
-	"mall/serializer"
-	"mall/utils/e"
+
+	"github.com/xilepeng/gin-mall/dao"
+	"github.com/xilepeng/gin-mall/pkg/e"
+	util "github.com/xilepeng/gin-mall/pkg/utils"
+	"github.com/xilepeng/gin-mall/serializer"
 )
 
-type ListCarouselsService struct {
+type CarouselService struct {
 }
 
-func (service *ListCarouselsService) List() serializer.Response {
+func (service *CarouselService) List(ctx context.Context) serializer.Response {
+	carouselDao := dao.NewCarouselDao(ctx)
 	code := e.SUCCESS
-	carouselsCtx := dao.NewCarouselDao(context.Background())
-	carousels, err := carouselsCtx.ListAddress()
+	carousels, err := carouselDao.ListCarousel()
 	if err != nil {
-		logging.Info(err)
-		code = e.ErrorDatabase
+		util.LogrusObj.Infoln("err", err)
+		code = e.ERROR
 		return serializer.Response{
 			Status: code,
 			Msg:    e.GetMsg(code),

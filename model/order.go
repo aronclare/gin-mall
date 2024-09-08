@@ -1,18 +1,16 @@
 package model
 
-import (
-	"github.com/jinzhu/gorm"
-)
+import "gorm.io/gorm"
 
-// Order 订单信息
+// 订单模型
 type Order struct {
 	gorm.Model
-	UserID    uint   `gorm:"not null"`
-	ProductID uint   `gorm:"not null"`
-	BossID    uint   `gorm:"not null"`
-	AddressID uint   `gorm:"not null"`
-	Num       int    // 数量
-	OrderNum  uint64 // 订单号
-	Type      uint   // 1 未支付  2 已支付
+	UserId    uint `gorm:"not null"`
+	ProductId uint `gorm:"not null"`
+	BossId    uint `gorm:"not null"`
+	AddressId uint `gorm:"not null"`
+	Num       int
+	OrderNum  uint64
+	Type      uint // 1. 未支付 2. 已支付
 	Money     float64
 }
