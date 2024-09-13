@@ -1,2 +1,13 @@
 old version  v1.0
 配置好数据库直接在根目录执行go run main.go 启动项目
+
+
+go learn  document
+https://www.topgoer.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/go%E6%93%8D%E4%BD%9Ckafka/%E6%93%8D%E4%BD%9Ckafka.html
+
+
+gin-VUE
+https://demo.gin-vue-admin.com/#/layout/plugin/pubPlug
+
+实用工具
+https://www.butterpig.top/
